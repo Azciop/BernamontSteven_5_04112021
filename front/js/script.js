@@ -1,10 +1,8 @@
 fetch("http://localhost:3000/api/products")
   .then(function(res) {
-   /* if (!res.ok) {
-      throw newError ("Impossible de récupérer les produits.")  
+    if (res.ok) {
+      return res.json();
     }
-    */
-    return res.json();
   })
   .then(function(value) {
     console.log(value);
@@ -21,8 +19,10 @@ fetch("http://localhost:3000/api/products")
     });
     let container = document.getElementById("items");
     container.innerHTML = html;
+
   })
   .catch(function(err) {
-    alert(err)
+    let container = document.getElementById("items");
+    container.innerHTML = "Impossible de récupérer les données de l'API ("+err+")";
   });
 

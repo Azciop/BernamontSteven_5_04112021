@@ -19,6 +19,7 @@ fetch("http://localhost:3000/api/products")
     });
     let container = document.getElementById("items");
     container.innerHTML = html;
+    
 
   })
   .catch(function(err) {

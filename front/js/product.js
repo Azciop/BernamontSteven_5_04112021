@@ -1,4 +1,3 @@
-console.log('Hello world')
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id')
 console.log(id);
@@ -17,12 +16,20 @@ fetch("http://localhost:3000/api/products/"+id)
     price.innerHTML = ``+ value.price +``;
     let description = document.getElementById("description");
     description.innerHTML = ``+ value.description +``;
-   
-    console.log(value);
-   
-
-  })
-  .catch(function(err) {
     
-  });
-
+   let colors = value.colors;
+   console.log(colors);
+   var elm = document.getElementById('colors');
+   colors.forEach(color => {
+   elm.innerHTML = elm.innerHTML + '<option value="' + color + '">' + color + '</option>';
+   }); 
+   console.log(value);
+   let container = document.getElementsByClassName("item");
+   container.innerHTML = html;
+   
+  })
+ 
+.catch(function(err) {
+  let container = document.getElementsByClassName("item");
+  container.innerHTML = "Impossible de récupérer les données de l'API ("+err+")";
+});

@@ -8,10 +8,8 @@ fetch("http://localhost:3000/api/products")
   /* utilisation de then avec une fonction permettant de récupérer l'id de chaque valeurs et de créer
   des elements pour chaque objets via un forEach  */
   .then(function(value) {
-    console.log(value);
     let html= '';
     value.forEach(element => {
-        console.log(element);
         html += `<a href="./product.html?id=` + element._id +`">
         <article>
           <img src="` + element.imageUrl +`" alt="` + element.altTxt +`">

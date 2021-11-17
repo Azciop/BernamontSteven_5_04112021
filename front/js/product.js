@@ -10,7 +10,6 @@ fetch("http://localhost:3000/api/products/" + id)
 	})
   // création d'une fonction permettant de créer des élements pour chaque objets 
 	.then(function (value) {
-		console.log(value);
 		let img = document.getElementsByClassName("item__img")[0];
 		img.innerHTML =
 			`<img src="` + value.imageUrl + `" alt="` + value.altTxt + `">`;

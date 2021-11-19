@@ -15,8 +15,16 @@ var quantityInputs = document.getElementsByClassName('itemQuantity')
         input.addEventListener('change', quantityChanged)
     }
 
-    
+function quantityChanged(event) {
+    var input = event.target
+    if (input.value <= 0) {
+        input.value = 1
+    }
+    updateCartTotal()
+}
+//
 
+// création d'une fonction permettant de modifié le prix total du panier
 function updateCartTotal() {
    var cartItemContainer = document.getElementsByClassName('cart')[0]
    var cartPrices = cartItemContainer.getElementsByClassName('cart__item')
@@ -27,8 +35,106 @@ function updateCartTotal() {
        var quantityElement = itemInfos.getElementsByClassName('itemQuantity')[0]
        var price = parseFloat(priceElement.innerText.replace('€', ''))
        var quantity = quantityElement.value 
-       total = total + (price * quantity)
+       total += (price * quantity)
    }
    document.getElementById('totalPrice').innerText = total
-
 };
+//
+
+
+// création des messages d'erreurs grâce à l'utilisation des RegEx
+let form = document.querySelector('.cart__order__form');
+
+// message d'erreur du prénom
+form.firstName.addEventListener('change', function() {
+    validFirstName(this)
+});
+
+var validFirstName = function(inputFirstName) {
+    let firstNameRegex = new RegExp ('^[a-zA-Z]+$');
+    let testFirstName = firstNameRegex.test(inputFirstName.value);
+    let firstNameErrorMsg = inputFirstName.nextElementSibling;
+
+    if(testFirstName == true) {
+    firstNameErrorMsg.innerHTML = "";
+    }
+    else {
+        firstNameErrorMsg.innerHTML = "Le prénom de peut pas contenir de chiffres !";
+    }
+};
+
+// message d'erreur du nom
+form.lastName.addEventListener('change', function() {
+    validLastName(this)
+});
+
+var validLastName = function(inputLastName) {
+    let lastNameRegex = new RegExp ('^[a-zA-Z]+$');
+    let testLastName = lastNameRegex.test(inputLastName.value);
+    let lastNameErrorMsg = inputLastName.nextElementSibling;
+
+    if(testLastName == true) {
+        lastNameErrorMsg.innerHTML = "";
+    }
+    else {
+        lastNameErrorMsg.innerHTML = "Le nom de peut pas contenir de chiffres !";
+    }
+};
+
+// message d'erreur de l'adresse
+form.address.addEventListener('change', function() {
+    validAddress(this)
+});
+
+var validAddress = function(inputAddress) {
+    let addressRegex = new RegExp ('^[^@&"()!_$*€£`+=\/;?#]+$');
+    let testAddress = addressRegex.test(inputAddress.value);
+    let addressErrorMsg = inputAddress.nextElementSibling;
+
+    if(testAddress == true) {
+       addressErrorMsg.innerHTML = "";
+    }
+    else {
+        addressErrorMsg.innerHTML = "Adresse non valide";
+    }
+};
+
+// message d'erreur de la ville
+form.city.addEventListener('change', function() {
+    validCity(this)
+});
+
+var validCity = function(inputCity) {
+    let cityRegex = new RegExp ('^[^@&"()!_$*€0123456789£`+=\/;?#]+$');
+
+    let testCity = cityRegex.test(inputCity.value);
+    let cityErrorMsg = inputCity.nextElementSibling;
+
+    if(testCity == true) {
+    cityErrorMsg.innerHTML = "";
+    }
+    else {
+        cityErrorMsg.innerHTML = "Ville non valide!";
+    }
+};
+
+// message d'erreur de l'adresse email
+form.email.addEventListener('change', function() {
+    validEmail(this)
+});
+
+var validEmail = function(inputEmail) {
+    let emailRegex = new RegExp ('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g'
+    );
+
+    let testEmail = emailRegex.test(inputEmail.value);
+    let emailErrorMsg = inputEmail.nextElementSibling;
+
+    if(testEmail == true) {
+    emailErrorMsg.innerHTML = "";
+    }
+    else {
+        emailErrorMsg.innerHTML = "L'adresse email n'est pas valide !";
+    }
+};
+//

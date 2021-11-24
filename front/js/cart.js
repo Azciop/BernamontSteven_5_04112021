@@ -1,3 +1,37 @@
+var productStorage = JSON.parse(localStorage.getItem('product'))
+let html= '';
+    productStorage.forEach(function(product) {
+        html +=
+        `<article class="cart__item" data-id="`+ product._id +`" data-color="`+ product.colors +`">
+        <div class="cart__item__img">
+          <img src="`+ product.imageUrl +`" alt="`+ product.altTxt +`">
+        </div>
+        <div class="cart__item__content">
+          <div class="cart__item__content__description">
+            <h2>`+ product.name +`</h2>
+            <p>`+ product.colors +`</p>
+            <p>`+ product.price +`</p>
+          </div>
+          <div class="cart__item__content__settings">
+            <div class="cart__item__content__settings__quantity">
+              <p>Qté : `+ product.quantity +`</p>
+              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="`+ product.quantity +`">
+            </div>
+            <div class="cart__item__content__settings__delete">
+              <p class="deleteItem">Supprimer</p>
+            </div>
+          </div>
+        </div>
+      </article>`
+    });
+    let container = document.getElementById("cart__items");
+    container.innerHTML = html;
+    
+
+
+
+
+/*
 var removeCartItem = document.getElementsByClassName('deleteItem');
 // création d'une loop for permettant de supprimer un kanap du cart
 for (var i = 0; i < removeCartItem.length; i++) {
@@ -24,7 +58,7 @@ function quantityChanged(event) {
 }
 //
 
-// création d'une fonction permettant de modifié le prix total du panier
+// création d'une fonction permettant de modifier le prix total du panier
 function updateCartTotal() {
    var cartItemContainer = document.getElementsByClassName('cart')[0]
    var cartPrices = cartItemContainer.getElementsByClassName('cart__item')
@@ -40,7 +74,7 @@ function updateCartTotal() {
    document.getElementById('totalPrice').innerText = total
 };
 //
-
+*/
 
 // création des messages d'erreurs grâce à l'utilisation des RegEx
 let form = document.querySelector('.cart__order__form');

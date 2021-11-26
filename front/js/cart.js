@@ -1,4 +1,8 @@
+// uses of variables and getItem function to get objects from the localStorage
 var productStorage = JSON.parse(localStorage.getItem('product'))
+
+/* uses of variables and forEach function to implement the objects from the localStorage 
+to the DOM by implementing them with elements */
 let html= '';
     productStorage.forEach(function(product) {
         html +=
@@ -10,11 +14,11 @@ let html= '';
           <div class="cart__item__content__description">
             <h2>`+ product.name +`</h2>
             <p>`+ product.colors +`</p>
-            <p>`+ product.price +`</p>
+            <p>`+ product.price +``+ '€' +`</p>
           </div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
-              <p>Qté : `+ product.quantity +`</p>
+              <p>Qté : </p>
               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="`+ product.quantity +`">
             </div>
             <div class="cart__item__content__settings__delete">
@@ -28,12 +32,9 @@ let html= '';
     container.innerHTML = html;
     
 
-
-
-
-/*
+// Creation of a variable to get the deleteItem button to work
 var removeCartItem = document.getElementsByClassName('deleteItem');
-// création d'une loop for permettant de supprimer un kanap du cart
+// Making a loop and using an eventListener on click to delete an element from the cart using the deleteItem variable
 for (var i = 0; i < removeCartItem.length; i++) {
     var remove = removeCartItem[i]
     remove.addEventListener('click', function(event) {
@@ -43,22 +44,26 @@ for (var i = 0; i < removeCartItem.length; i++) {
     })
     
 }
+
+// Making a variable to get the itemQuantity of every products in the cart
 var quantityInputs = document.getElementsByClassName('itemQuantity')
+// using a for, loop and and eventListener to change the total quantity of every products in the cart
     for (var i = 0; i < quantityInputs.length; i++) {
         var input = quantityInputs[i]
         input.addEventListener('change', quantityChanged)
     }
-
-function quantityChanged(event) {
-    var input = event.target
-    if (input.value <= 0) {
-        input.value = 1
+//Creation of a function to show total price of the cart
+    function quantityChanged(event) {
+        var input = event.target
+        if (input.value <= 0) {
+            input.value = 1
+        }
+        updateCartTotal()
     }
-    updateCartTotal()
-}
-//
 
-// création d'une fonction permettant de modifier le prix total du panier
+
+
+// Uses of a function and variables to update the total price of the cart when we add or remove a product for the cart
 function updateCartTotal() {
    var cartItemContainer = document.getElementsByClassName('cart')[0]
    var cartPrices = cartItemContainer.getElementsByClassName('cart__item')
@@ -74,12 +79,15 @@ function updateCartTotal() {
    document.getElementById('totalPrice').innerText = total
 };
 //
-*/
 
-// création des messages d'erreurs grâce à l'utilisation des RegEx
+
+
+// making a querySelector to navigate easier in the DOM
 let form = document.querySelector('.cart__order__form');
 
-// message d'erreur du prénom
+
+// Creating error messages in the form using RegEx
+// First Name Error Message
 form.firstName.addEventListener('change', function() {
     validFirstName(this)
 });
@@ -97,7 +105,7 @@ var validFirstName = function(inputFirstName) {
     }
 };
 
-// message d'erreur du nom
+// Last Name Error Message
 form.lastName.addEventListener('change', function() {
     validLastName(this)
 });
@@ -115,7 +123,7 @@ var validLastName = function(inputLastName) {
     }
 };
 
-// message d'erreur de l'adresse
+// Address Error Message
 form.address.addEventListener('change', function() {
     validAddress(this)
 });
@@ -133,7 +141,7 @@ var validAddress = function(inputAddress) {
     }
 };
 
-// message d'erreur de la ville
+// City Error Message
 form.city.addEventListener('change', function() {
     validCity(this)
 });
@@ -152,7 +160,7 @@ var validCity = function(inputCity) {
     }
 };
 
-// message d'erreur de l'adresse email
+// Email Error Message
 form.email.addEventListener('change', function() {
     validEmail(this)
 });

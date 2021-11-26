@@ -1,12 +1,13 @@
-// récupération de l'API via un fetch et d'une fonction return 
+//fetching to get the API and using a then function to return JSON
 fetch("http://localhost:3000/api/products")
   .then(function(res) {
     if (res.ok) {
       return res.json();
     }
   })
-  /* utilisation de then avec une fonction permettant de récupérer l'id de chaque valeurs et de créer
-  des elements pour chaque objets via un forEach  */
+  
+  /* Using then with a function to get the id of every values and creating elements in the DOM for
+  every object using a ForEach
   .then(function(value) {
     let html= '';
     value.forEach(element => {
@@ -20,10 +21,10 @@ fetch("http://localhost:3000/api/products")
     });
     let container = document.getElementById("items");
     container.innerHTML = html;
-    
-
   })
-  // création d'un catch permettant d'afficher un message d'erreur si les api ne peuvent pas être récupérées 
+  */
+   
+  // Using a catch function to show the error message if the API cant be reached
   .catch(function(err) {
     let container = document.getElementById("items");
     container.innerHTML = "Impossible de récupérer les données de l'API ("+err+")";

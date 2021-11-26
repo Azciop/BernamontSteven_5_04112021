@@ -1,4 +1,4 @@
-// récupération de l'id de chaque objets via des const et grâce à l'interface URLSearchParams et a la propriété search 
+ // Picking up the id of every objects with variable using the URLSearchParameters interface and search property
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 // récupération de l'ID via un fetch et d'une fonction return //
@@ -8,7 +8,7 @@ fetch("http://localhost:3000/api/products/" + id)
 			return res.json();
 		}
 	})
-// création d'une fonction permettant de créer des élements pour chaque objets 
+// Using a function to creat elements in the DOM for every objects
 	.then(function (value) {
 		let img = document.getElementsByClassName("item__img")[0];
 		img.innerHTML =
@@ -25,6 +25,7 @@ fetch("http://localhost:3000/api/products/" + id)
 			elm.innerHTML += '<option value="' + color + '">' + color + "</option>";
 		
 		});
+// Uses of variables and eventLister to add Objects to the localStorage
 		let orderButton = document.getElementById('addToCart');
 		orderButton.addEventListener('click', function(){
 		var productStorage = JSON.parse(localStorage.getItem('product')) || []
@@ -45,7 +46,7 @@ fetch("http://localhost:3000/api/products/" + id)
 
 	
 
-  // création d'un catch permettant d'afficher un message d'erreur si les api ne peuvent pas être récupérées 
+  // Using a catch function to show the error message if the API cant be reached
 	.catch(function (err) {
 		let container = document.getElementsByClassName("item");
 		container.innerHTML =

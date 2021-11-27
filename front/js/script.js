@@ -7,7 +7,7 @@ fetch("http://localhost:3000/api/products")
   })
   
   /* Using then with a function to get the id of every values and creating elements in the DOM for
-  every object using a ForEach
+  every object using a ForEach */
   .then(function(value) {
     let html= '';
     value.forEach(element => {
@@ -22,7 +22,7 @@ fetch("http://localhost:3000/api/products")
     let container = document.getElementById("items");
     container.innerHTML = html;
   })
-  */
+ 
    
   // Using a catch function to show the error message if the API cant be reached
   .catch(function(err) {

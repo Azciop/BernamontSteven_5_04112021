@@ -23,13 +23,12 @@ fetch("http://localhost:3000/api/products/" + id)
 		var elm = document.getElementById("colors");
 		colors.forEach(color => {
 			elm.innerHTML += '<option value="' + color + '">' + color + "</option>";
-		
 		});
 // Uses of variables and eventLister to add Objects to the localStorage
 		let orderButton = document.getElementById('addToCart');
 		orderButton.addEventListener('click', function(){
-		var productStorage = JSON.parse(localStorage.getItem('product')) || []
-		let product = {
+		var cartStorage = JSON.parse(localStorage.getItem('cart')) || []
+		let cart = {
 			altTxt: value.altTxt,
 			colors: elm.value,
 			description: value.description,
@@ -39,17 +38,41 @@ fetch("http://localhost:3000/api/products/" + id)
 			_id: value._id,
 			quantity: document.getElementById('quantity').value
 		}	
-		productStorage.push(product);
-		localStorage.setItem('product', JSON.stringify(productStorage));
+		cartStorage.push(cart);
+		localStorage.setItem('cart', JSON.stringify(cartStorage));
 		})
-	})
+	});
 
-	
+// Creating error messages and validation messages when choosing product color and quantity
+// Getting the elements from the HTML
+let orderButton = document.getElementById('addToCart');
+let	itemQuantityValue = document.getElementById('quantity');
+let colorSelectValue = document.getElementById('colors');
 
-  // Using a catch function to show the error message if the API cant be reached
+// Making eventListener on 'change' for the errorMsg function
+itemQuantityValue.addEventListener('change', errorMsg)
+colorSelectValue.addEventListener('change', errorMsg)
+
+// Creating an element for the error message
+document.getElementsByClassName('item__content__description')[0].innerHTML += `<p id="errorMsg" style="color: red;font-size: 25px;"></p>`
+
+// Making the function to creat the error message and to disable the button using an if else
+function errorMsg() {
+    if (itemQuantityValue.value == 0 || colorSelectValue.value == "") {
+        orderButton.style.display = "none";
+        document.getElementById('errorMsg').innerHTML = `Veuillez choisir au minimum un article et une couleur !`;
+    } else {
+        orderButton.style.display = "inline-block";
+		document.getElementById('errorMsg').innerHTML = ""; 
+    }
+}
+// calling the errorMsg function
+errorMsg();
+
+/* Using a catch function to show the error message if the API cant be reached
 	.catch(function (err) {
 		let container = document.getElementsByClassName("item");
 		container.innerHTML =
 			"Impossible de récupérer les données de l'API (" + err + ")";
 	});
-
+*/

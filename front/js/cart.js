@@ -1,25 +1,25 @@
 // uses of variables and getItem function to get objects from the localStorage
-var productStorage = JSON.parse(localStorage.getItem('product'))
+var cartStorage = JSON.parse(localStorage.getItem('cart'))
 
 /* uses of variables and forEach function to implement the objects from the localStorage 
 to the DOM by implementing them with elements */
 let html= '';
-    productStorage.forEach(function(product) {
+cartStorage.forEach(function(cart) {
         html +=
-        `<article class="cart__item" data-id="`+ product._id +`" data-color="`+ product.colors +`">
+        `<article class="cart__item" data-id="`+ cart._id +`" data-color="`+ cart.colors +`">
         <div class="cart__item__img">
-          <img src="`+ product.imageUrl +`" alt="`+ product.altTxt +`">
+          <img src="`+ cart.imageUrl +`" alt="`+ cart.altTxt +`">
         </div>
         <div class="cart__item__content">
           <div class="cart__item__content__description">
-            <h2>`+ product.name +`</h2>
-            <p>`+ product.colors +`</p>
-            <p>`+ product.price +``+ '€' +`</p>
+            <h2>`+ cart.name +`</h2>
+            <p>`+ cart.colors +`</p>
+            <p>`+ cart.price +``+ '€' +`</p>
           </div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
               <p>Qté : </p>
-              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="`+ product.quantity +`">
+              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="`+ cart.quantity +`">
             </div>
             <div class="cart__item__content__settings__delete">
               <p class="deleteItem">Supprimer</p>
@@ -78,15 +78,14 @@ function updateCartTotal() {
    }
    document.getElementById('totalPrice').innerText = total
 };
-//
 
-
-
-// making a querySelector to navigate easier in the DOM
-let form = document.querySelector('.cart__order__form');
+updateCartTotal()
 
 
 // Creating error messages in the form using RegEx
+// making a querySelector to navigate easier in the DOM
+let form = document.querySelector('.cart__order__form');
+
 // First Name Error Message
 form.firstName.addEventListener('change', function() {
     validFirstName(this)

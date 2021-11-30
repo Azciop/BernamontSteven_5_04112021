@@ -40,6 +40,8 @@ fetch("http://localhost:3000/api/products/" + id)
 			};
 			cartStorage.push(cart);
 			localStorage.setItem("cart", JSON.stringify(cartStorage));
+			// Making an alert message to confirm that the item was added to the cart
+			alert('Votre produit a bien été ajouté à votre panier !')
 		});
 		// Creating error messages and validation messages when choosing product color and quantity
 		// Getting the elements from the HTM

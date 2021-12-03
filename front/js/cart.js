@@ -1,6 +1,7 @@
 // uses of variables and getItem function to get objects from the localStorage
 var cartStorage = JSON.parse(localStorage.getItem("cart"));
 
+
 /* uses of variables and forEach function to implement the objects from the localStorage 
 to the DOM by implementing them with elements */
 let html = "";
@@ -57,7 +58,8 @@ for (var i = 0; i < removeCartItem.length; i++) {
 	remove.addEventListener("click", function (event) {
 		var removeClick = event.target;
 		removeClick.parentElement.parentElement.parentElement.parentElement.remove();
-		updateCartTotal();
+		updateCartTotalPrice();
+		updateCartTotalQuantity()
 	});
 }
 
@@ -74,11 +76,12 @@ function quantityChanged(event) {
 	if (input.value <= 0) {
 		input.value = 1;
 	}
-	updateCartTotal();
+	updateCartTotalPrice();
+	updateCartTotalQuantity()
 }
 
 // Uses of a function and variables to update the total price of the cart when we add or remove a product for the cart
-function updateCartTotal() {
+function updateCartTotalPrice() {
 	var cartItemContainer = document.getElementsByClassName("cart")[0];
 	var cartPrices = cartItemContainer.getElementsByClassName("cart__item");
 	var total = 0;
@@ -95,7 +98,27 @@ function updateCartTotal() {
 	document.getElementById("totalPrice").innerText = total;
 }
 
-updateCartTotal();
+updateCartTotalPrice();
+
+// Making a function to show total of item in the cart
+
+function updateCartTotalQuantity() {
+	cartStorage.forEach(function (cart) {
+	cartQuantity = cart.quantity;
+	var cartItemQuantity = parseFloat(cartQuantity);
+	var total = 0;
+	console.log(cartItemQuantity)
+	console.log(typeof cartItemQuantity)
+	for (var i = 0; i < cartItemQuantity.length; i++) {
+		
+	total += cartItemQuantity[i];		
+	}
+	document.getElementById("totalQuantity").innerText = total;
+});
+};
+
+updateCartTotalQuantity()
+
 
 // creating a function to implement RegEx in the form
 function reg(regex, input, msg) {
@@ -131,6 +154,7 @@ form.lastName.addEventListener("change", function () {
 form.address.addEventListener("change", function () {
 	reg('^[^@&"()!_$*€£`+=/;?#]+$', this, "Adresse non valide !");
 });
+
 
 form.city.addEventListener("change", function () {
 	reg('^[^@&"()!_$*€0123456789£`+=/;?#]+$', this, "Ville non valide !");

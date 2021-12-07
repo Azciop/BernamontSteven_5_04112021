@@ -1,11 +1,10 @@
 // uses of variables and getItem function to get objects from the localStorage
 var cartStorage = JSON.parse(localStorage.getItem("cart"));
 
-
-/* uses of variables and forEach function to implement the objects from the localStorage 
+/* uses of variables and forEach function to implement the objects from the localStorage
 to the DOM by implementing them with elements */
 let html = "";
-cartStorage.forEach(function (cart) {
+cartStorage.forEach(function (cart, index) {
 	html +=
 		`<article class="cart__item" data-id="` +
 		cart._id +
@@ -36,7 +35,7 @@ cartStorage.forEach(function (cart) {
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
               <p>Qté : </p>
-              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="` +
+              <input type="number" class="itemQuantity" data-index="`+ index + `" name="itemQuantity" min="1" max="100" value="` +
 		cart.quantity +
 		`">
             </div>
@@ -52,14 +51,12 @@ container.innerHTML = html;
 
 // Creation of a variable to get the deleteItem button to work
 var removeCartItem = document.getElementsByClassName("deleteItem");
-// Making a loop and using an eventListener on click to delete an element from the cart using the deleteItem variable
+// Making a loop and using an eventListener on click to delete an element from the cart using the localStorage.removeItem 
 for (var i = 0; i < removeCartItem.length; i++) {
 	var remove = removeCartItem[i];
 	remove.addEventListener("click", function (event) {
-		var removeClick = event.target;
-		removeClick.parentElement.parentElement.parentElement.parentElement.remove();
-		updateCartTotalPrice();
-		updateCartTotalQuantity()
+		localStorage.removeItem('cart')
+		location.reload();
 	});
 }
 
@@ -69,6 +66,7 @@ var quantityInputs = document.getElementsByClassName("itemQuantity");
 for (var i = 0; i < quantityInputs.length; i++) {
 	var input = quantityInputs[i];
 	input.addEventListener("change", quantityChanged);
+	
 }
 //Creation of a function to show total price of the cart
 function quantityChanged(event) {
@@ -82,88 +80,27 @@ function quantityChanged(event) {
 
 // Uses of a function and variables to update the total price of the cart when we add or remove a product for the cart
 function updateCartTotalPrice() {
-	var cartItemContainer = document.getElementsByClassName("cart")[0];
-	var cartPrices = cartItemContainer.getElementsByClassName("cart__item");
-	var total = 0;
-	for (var i = 0; i < cartPrices.length; i++) {
-		var itemInfos = cartPrices[i];
-		var priceElement = itemInfos.getElementsByClassName(
-			"cart__item__content__description"
-		)[0].children[2];
-		var quantityElement = itemInfos.getElementsByClassName("itemQuantity")[0];
-		var price = parseFloat(priceElement.innerText.replace("€", ""));
-		var quantity = quantityElement.value;
-		total += price * quantity;
-	}
-	document.getElementById("totalPrice").innerText = total;
+	let totalAmount = 0;
+	cartStorage.forEach(function (product) {
+		totalAmount += product.quantity * product.price;
+		document.getElementById("totalPrice").innerText = totalAmount;
+	});
 }
-
 updateCartTotalPrice();
 
 // Making a function to show total of item in the cart
 
 function updateCartTotalQuantity() {
-	cartStorage.forEach(function (cart) {
-	cartQuantity = cart.quantity;
-	var cartItemQuantity = parseFloat(cartQuantity);
-	var total = 0;
-	console.log(cartItemQuantity)
-	console.log(typeof cartItemQuantity)
-	for (var i = 0; i < cartItemQuantity.length; i++) {
-		
-	total += cartItemQuantity[i];		
-	}
-	document.getElementById("totalQuantity").innerText = total;
-});
+	let totalQty = 0;
+	cartStorage.forEach(function (product) {
+		totalQty += product.quantity;
+		document.getElementById("totalQuantity").innerText = totalQty;
+	});
 };
 
-updateCartTotalQuantity()
+updateCartTotalQuantity();
 
 
-// creating a function to implement RegEx in the form
-function reg(regex, input, msg) {
-	// Making a variable who initializes the RegExp
-	let r = new RegExp(regex);
-	// Testing the RegExo with the imput value
-	let test = r.test(input.value);
-	// Getting the next element sibling to creat an error message
-	let inputErrorMsg = input.nextElementSibling;
-
-	/* If the test doesnt have an error, nothing happens. 
-  Else, if RegExp failed, shows error message */
-	if (test == true) {
-		inputErrorMsg.innerHTML = "";
-	} else {
-		inputErrorMsg.innerHTML = msg;
-	}
-}
-
-// getting the parent element
-let form = document.querySelector(".cart__order__form");
-
-// Making an eventListener on change using a function to implement the error messages
-form.firstName.addEventListener("change", function () {
-	reg("^[a-zA-Z]+$", this, "Le prénom ne peut pas contenir de chiffres !");
-});
-
-form.lastName.addEventListener("change", function () {
-	reg("^[a-zA-Z]+$", this, "Le nom ne peut pas contenir de chiffres !");
-});
-
-// Address Error Message
-form.address.addEventListener("change", function () {
-	reg('^[^@&"()!_$*€£`+=/;?#]+$', this, "Adresse non valide !");
-});
-
-
-form.city.addEventListener("change", function () {
-	reg('^[^@&"()!_$*€0123456789£`+=/;?#]+$', this, "Ville non valide !");
-});
-
-form.email.addEventListener("change", function () {
-	reg(
-		"^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$",
-		this,
-		"L'adresse email n'est pas valide !"
-	);
-});
+/*
+RegEx was added in the validation.js file
+*/

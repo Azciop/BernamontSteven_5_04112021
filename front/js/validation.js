@@ -46,37 +46,3 @@ form.email.addEventListener("change", function () {
 	);
 });
 
-/*
-function getErrors(){
-	// Creating error messages and validation messages when choosing product color and quantity
-		// Getting the elements from the HTM
-		let itemQuantityValue = document.getElementById("quantity");
-		let colorSelectValue = document.getElementById("colors");
-
-		// Making eventListener on 'change' for the errorMsg function
-		itemQuantityValue.addEventListener("change", errorMsg);
-		colorSelectValue.addEventListener("change", errorMsg);
-
-		// Creating an element for the error message
-		document.getElementsByClassName(
-			"item__content__description"
-		)[0].innerHTML += `<p id="errorMsg" style="color: red;font-size: 25px;"></p>`;
-
-		// Making the function to creat the error message and to disable the button using an if else
-		function errorMsg() {
-			let orderButton = document.getElementById("addToCart");
-			let colorSelectValue = document.getElementById("colors");
-			itemQuantityValue.addEventListener("change", errorMsg);
-			colorSelectValue.addEventListener("change", errorMsg);
-			if (itemQuantityValue.value == 0 || colorSelectValue.value == "") {
-				orderButton.style.display = "none";
-				document.getElementById(
-					"errorMsg"
-				).innerHTML = `Veuillez choisir au minimum un article et une couleur !`;
-			} else {
-				orderButton.style.display = "inline-block";
-				document.getElementById("errorMsg").innerHTML = "";
-			}
-		}
-	}
-    */

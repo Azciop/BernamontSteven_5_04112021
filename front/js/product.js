@@ -44,14 +44,15 @@ function renderHTML(value) {
 function addToCart(value) {
 	// Uses of variables and eventLister to add Objects to the localStorage
 	let orderButton = document.getElementById("addToCart");
+	var elm = document.getElementById("colors");
 	orderButton.addEventListener("click", function () {
 		var cartStorage = JSON.parse(localStorage.getItem("cart")) || [];
-		value["color"] = value.colors;
+		value["color"] = elm.value;
 		value["quantity"] = Number(document.getElementById("quantity").value);
 
 		let needToAdd = true;
 		cartStorage.forEach((element, index) => {
-			if (element._id === value._id && element.value === element.color) {
+			if (element._id === value._id && elm.value === element.color) {
 				cartStorage[index].quantity += Number(
 					document.getElementById("quantity").value
 				);

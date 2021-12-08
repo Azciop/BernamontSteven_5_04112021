@@ -33,7 +33,6 @@ form.address.addEventListener("change", function () {
 	reg('^[^@&"()!_$*€£`+=/;?#]+$', this, "Adresse non valide !");
 });
 
-
 form.city.addEventListener("change", function () {
 	reg('^[^@&"()!_$*€0123456789£`+=/;?#]+$', this, "Ville non valide !");
 });
@@ -45,4 +44,3 @@ form.email.addEventListener("change", function () {
 		"L'adresse email n'est pas valide !"
 	);
 });
-

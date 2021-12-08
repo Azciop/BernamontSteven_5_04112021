@@ -22,7 +22,6 @@ fetch("http://localhost:3000/api/products/" + id)
 			"Impossible de récupérer les données de l'API (" + err + ")";
 	});
 
-
 // Making a function to creat HTML using the DOM
 function renderHTML(value) {
 	let img = document.getElementsByClassName("item__img")[0];
@@ -41,16 +40,20 @@ function renderHTML(value) {
 	});
 }
 
+// making a function that add the product to the local storage
 function addToCart(value) {
-	// Uses of variables and eventLister to add Objects to the localStorage
+	// getting the document elements for the button and the colors value
 	let orderButton = document.getElementById("addToCart");
 	var elm = document.getElementById("colors");
+	// Making an eventlistener on click when clicking add to cart button
 	orderButton.addEventListener("click", function () {
 		var cartStorage = JSON.parse(localStorage.getItem("cart")) || [];
 		value["color"] = elm.value;
 		value["quantity"] = Number(document.getElementById("quantity").value);
 
 		let needToAdd = true;
+		/* making a forEach function that push the selected item to the localStorage. Ff the item with the same color
+		 is already in the localstorage, it only add the new number value to the string instead of making an other item */
 		cartStorage.forEach((element, index) => {
 			if (element._id === value._id && elm.value === element.color) {
 				cartStorage[index].quantity += Number(
@@ -59,11 +62,10 @@ function addToCart(value) {
 				needToAdd = false;
 			}
 		});
-
 		if (needToAdd) {
 			cartStorage.push(value);
 		}
-
+		// converting the object into a string using the stringify function
 		localStorage.setItem("cart", JSON.stringify(cartStorage));
 		// Making an alert message to confirm that the item was added to the cart
 		alert("Votre produit a bien été ajouté à votre panier !");
@@ -85,8 +87,10 @@ function errorMsg() {
 		"item__content__description"
 	)[0].innerHTML += `<p id="errorMsg" style="color: red;font-size: 25px;"></p>`;
 
-
 	let orderButton = document.getElementById("addToCart");
+
+	/* making an if else that take off the order button and show an error message if no color
+	 is choosen or if 0 is selected in the input element */
 	if (itemQuantityValue.value == 0 || colorSelectValue.value == "") {
 		orderButton.style.display = "none";
 		document.getElementById(
@@ -96,5 +100,4 @@ function errorMsg() {
 		orderButton.style.display = "inline-block";
 		document.getElementById("errorMsg").innerHTML = "";
 	}
-};
-
+}

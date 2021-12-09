@@ -1,14 +1,14 @@
 // uses of variables and getItem function to get objects from the localStorage
 var cartStorage = JSON.parse(localStorage.getItem("cart"));
 
-// Making a message that shows itself if cart is empty
-function cartStatus (){
-cartStatusMessage = document.querySelectorAll('h1')[0];
-if (localStorage.getItem("cart") === null) {
-	cartStatusMessage.innerHTML = "Votre panier est vide !";
-} else {
-	cartStatusMessage.innerHTML = "Votre panier";
-}
+// Making a message who says if cart is empty or not
+function cartStatus() {
+	cartStatusMessage = document.querySelectorAll('h1')[0];
+	if (localStorage.getItem("cart") === null) {
+		cartStatusMessage.innerHTML = "Votre panier est vide !";
+	} else {
+		cartStatusMessage.innerHTML = "Votre panier";
+	}
 };
 cartStatus();
 
@@ -87,6 +87,9 @@ deleteButton.forEach(button => {
 function changeQuantityFromCart(index, value) {
 	cartStorage[index]["quantity"] = Number(value);
 	localStorage.setItem("cart", JSON.stringify(cartStorage));
+	updateCartTotalQuantity()
+	updateCartTotalPrice()
+	
 }
 let quantityInput = document.querySelectorAll(".itemQuantity");
 quantityInput.forEach(input => {
@@ -117,6 +120,66 @@ function updateCartTotalQuantity() {
 
 updateCartTotalQuantity();
 
-/*
-RegEx was added in the validation.js file
-*/
+// creating a function to implement RegEx in the form
+function reg(regex, input, msg) {
+	// Making a variable who initializes the RegExp
+	let r = new RegExp(regex);
+	// Testing the RegExo with the imput value
+	let test = r.test(input.value);
+	// Getting the next element sibling to creat an error message
+	let inputErrorMsg = input.nextElementSibling;
+
+	/* If the test doesnt have an error, nothing happens. 
+  Else, if RegExp failed, shows error message */
+	if (test == true) {
+		inputErrorMsg.innerHTML = "";
+	} else {
+		inputErrorMsg.innerHTML = msg;
+	}
+}
+
+// getting the parent element
+let form = document.querySelector(".cart__order__form");
+
+// Making an eventListener on change using a function to implement the error messages
+form.firstName.addEventListener("change", function () {
+	reg("^[a-zA-Z]+$", this, "Le prénom ne peut pas contenir de chiffres !");
+});
+
+form.lastName.addEventListener("change", function () {
+	reg("^[a-zA-Z]+$", this, "Le nom ne peut pas contenir de chiffres !");
+});
+
+// Address Error Message
+form.address.addEventListener("change", function () {
+	reg('^[^@&"()!_$*€£`+=/;?#]+$', this, "Adresse non valide !");
+});
+
+form.city.addEventListener("change", function () {
+	reg('^[^@&"()!_$*€0123456789£`+=/;?#]+$', this, "Ville non valide !");
+});
+
+form.email.addEventListener("change", function () {
+	reg(
+		"^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$",
+		this,
+		"L'adresse email n'est pas valide !"
+	);
+});
+
+// Making alert if regex not correct
+
+
+let orderButton = document.getElementById('order');
+document.getElementById('order').onclick = function openConfirmationPage() {
+	location.href = "http://127.0.0.1:5500/front/html/confirmation.html";
+}
+orderButton.addEventListener('click', function(){
+if (reg == true) {
+	openConfirmationPage();
+} else if ( reg != true) {
+	alert("Le formulaire n'est pas remplit entièrement");
+}
+})
+
+

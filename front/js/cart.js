@@ -89,7 +89,7 @@ function changeQuantityFromCart(index, value) {
 	localStorage.setItem("cart", JSON.stringify(cartStorage));
 	updateCartTotalQuantity()
 	updateCartTotalPrice()
-	
+
 }
 let quantityInput = document.querySelectorAll(".itemQuantity");
 quantityInput.forEach(input => {
@@ -169,17 +169,17 @@ form.email.addEventListener("change", function () {
 
 // Making alert if regex not correct
 
-
 let orderButton = document.getElementById('order');
-document.getElementById('order').onclick = function openConfirmationPage() {
+let openConfirmationPage = document.getElementById('order').onclick = function () {
 	location.href = "http://127.0.0.1:5500/front/html/confirmation.html";
 }
-orderButton.addEventListener('click', function(){
-if (reg == true) {
-	openConfirmationPage();
-} else if ( reg != true) {
-	alert("Le formulaire n'est pas remplit entièrement");
-}
-})
+orderButton.addEventListener('click', function () {
+	if (reg != true) {
+		alert("Le formulaire n'est pas remplit entièrement");
+	} else {
+		openConfirmationPage();
+	}
+});
+
 
 

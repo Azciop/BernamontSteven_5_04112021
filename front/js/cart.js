@@ -4,8 +4,12 @@ var cartStorage = JSON.parse(localStorage.getItem("cart"));
 // Making a message who says if cart is empty or not
 function cartStatus() {
 	cartStatusMessage = document.querySelectorAll('h1')[0];
+	cartElements = document.getElementsByClassName('cart__order')[0];
+	cartTotal = document.getElementsByClassName('cart__price')[0];
 	if (localStorage.getItem("cart") === null) {
 		cartStatusMessage.innerHTML = "Votre panier est vide !";
+		cartElements.style.display = "none";
+		cartTotal.style.display = "none";
 	} else {
 		cartStatusMessage.innerHTML = "Votre panier";
 	}
@@ -139,7 +143,7 @@ function reg(regex, input, msg) {
 }
 
 // getting the parent element
-let form = document.querySelector(".cart__order__form");
+let form = document.querySelector("form");
 
 // Making an eventListener on change using a function to implement the error messages
 form.firstName.addEventListener("change", function () {
@@ -169,17 +173,31 @@ form.email.addEventListener("change", function () {
 
 // Making alert if regex not correct
 
-let orderButton = document.getElementById('order');
-let openConfirmationPage = document.getElementById('order').onclick = function () {
-	location.href = "http://127.0.0.1:5500/front/html/confirmation.html";
-}
-orderButton.addEventListener('click', function () {
-	if (reg != true) {
-		alert("Le formulaire n'est pas remplit entièrement");
-	} else {
-		openConfirmationPage();
-	}
+form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    isFormValid = true;
+    reg("^[a-zA-Z]+$", form.firstName, "Le prénom ne peut pas contenir de chiffres !");
+    reg("^[a-zA-Z]+$", form.lastName, "Le nom ne peut pas contenir de chiffres !");
+    reg('^[^@&"()!$*€£`+=/;?#]+$', form.address, "Adresse non valide !");
+    reg('^[^@&"()!$*€0123456789£`+=/;?#]+$', form.city, "Ville non valide !");
+    reg(
+        "^[a-zA-Z0-9.-]+[@]{1}[a-zA-Z0-9.-]+[.]{1}[a-z]{2,10}$",
+        form.email,
+        "L'adresse email n'est pas valide !"
+    );
+
+    if(isFormValid){
+        orderSuccess();
+    }
 });
 
+function orderSuccess(){
+    //CREATE A FORMAT ARRAY WITH DATA ==> ONE ARRAY WITH AL PRODUCT ID ON CART + ONE ARRAY WITH CONTACT INFOS
+
+    //Make POST REQUEST AND ON THEN CLEAN ALL LOCALSTORAGE AND PUT ORDERID INSIDE LOCALSTORAGE
+
+    //REDIRECT TO CONFIRMATION
+    window.location.href ='./confirmation.html'
+}
 
 

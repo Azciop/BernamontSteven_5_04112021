@@ -15,7 +15,6 @@ function cartStatus() {
 	}
 };
 cartStatus();
-
 /* uses of variables and forEach function to implement the objects from the localStorage
 to the DOM by implementing them with elements */
 let html = "";
@@ -174,30 +173,43 @@ form.email.addEventListener("change", function () {
 // Making alert if regex not correct
 
 form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    isFormValid = true;
-    reg("^[a-zA-Z]+$", form.firstName, "Le prénom ne peut pas contenir de chiffres !");
-    reg("^[a-zA-Z]+$", form.lastName, "Le nom ne peut pas contenir de chiffres !");
-    reg('^[^@&"()!$*€£`+=/;?#]+$', form.address, "Adresse non valide !");
-    reg('^[^@&"()!$*€0123456789£`+=/;?#]+$', form.city, "Ville non valide !");
-    reg(
-        "^[a-zA-Z0-9.-]+[@]{1}[a-zA-Z0-9.-]+[.]{1}[a-z]{2,10}$",
-        form.email,
-        "L'adresse email n'est pas valide !"
-    );
+	event.preventDefault();
+	isFormValid = true;
+	reg("^[a-zA-Z]+$", form.firstName, "Le prénom ne peut pas contenir de chiffres !");
+	reg("^[a-zA-Z]+$", form.lastName, "Le nom ne peut pas contenir de chiffres !");
+	reg('^[^@&"()!$*€£`+=/;?#]+$', form.address, "Adresse non valide !");
+	reg('^[^@&"()!$*€0123456789£`+=/;?#]+$', form.city, "Ville non valide !");
+	reg(
+		"^[a-zA-Z0-9.-]+[@]{1}[a-zA-Z0-9.-]+[.]{1}[a-z]{2,10}$",
+		form.email,
+		"L'adresse email n'est pas valide !"
+	);
 
-    if(isFormValid){
-        orderSuccess();
-    }
+	if (isFormValid) {
+		orderSuccess();
+	};
 });
 
-function orderSuccess(){
-    //CREATE A FORMAT ARRAY WITH DATA ==> ONE ARRAY WITH AL PRODUCT ID ON CART + ONE ARRAY WITH CONTACT INFOS
 
-    //Make POST REQUEST AND ON THEN CLEAN ALL LOCALSTORAGE AND PUT ORDERID INSIDE LOCALSTORAGE
 
-    //REDIRECT TO CONFIRMATION
-    window.location.href ='./confirmation.html'
+
+function orderSuccess(event) {
+	//CREATE A FORMAT ARRAY WITH DATA ==> ONE ARRAY WITH ALL PRODUCT ID ON CART + ONE ARRAY WITH CONTACT INFOS
+	// making the items id array
+	var cartIds = []
+	cartStorage.forEach(function (cart) {
+		cartIds.push(cart._id)
+	});
+	var firstName = document.getElementById('firstName').value;
+	var lastName = document.getElementById('lastName').value;
+	var address = document.getElementById('address').value;
+	var city = document.getElementById('city').value;
+	var email = document.getElementById('email').value;
+	//contact info array
+	let contactInfo = [firstName, lastName, address, city, email];
+	//Make POST REQUEST AND ON THEN CLEAN ALL LOCALSTORAGE AND PUT ORDERID INSIDE LOCALSTORAGE
+
+	//REDIRECT TO CONFIRMATION
+	window.location.href = './confirmation.html'
 }
-
 

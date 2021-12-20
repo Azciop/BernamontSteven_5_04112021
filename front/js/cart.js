@@ -207,9 +207,28 @@ function orderSuccess(event) {
 	var email = document.getElementById('email').value;
 	//contact info array
 	let contactInfo = [firstName, lastName, address, city, email];
-	//Make POST REQUEST AND ON THEN CLEAN ALL LOCALSTORAGE AND PUT ORDERID INSIDE LOCALSTORAGE
+	/* //Make POST REQUEST AND ON THEN CLEAN ALL LOCALSTORAGE AND PUT ORDERID INSIDE LOCALSTORAGE
+	fetch('http://localhost:3000/api/products/order', {
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(jsonBody)
+	});
 
+	 .then(function orderId(value) {
+		localStorage.removeItem("cart");
+		let confirmationId = document.getElementsByClass('confirmation')[0];
+		confirmationId.innerHTML = `<p>Commande validée ! <br>Votre numéro de commande est : <span id="orderId"><!-- `+ +` --></span></p>`;
+
+	})
+ 
 	//REDIRECT TO CONFIRMATION
 	window.location.href = './confirmation.html'
+	.catch(function (err) {
+		let container = document.getElementsByClass('confirmation')[0];
+		container.innerHTML =
+			"Impossible d'afficher la confirmation de votre commande (" + err + ")";
+} */
 }
-

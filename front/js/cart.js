@@ -194,40 +194,50 @@ form.addEventListener('submit', function (event) {
 
 
 function orderSuccess(event) {
-	//CREATE A FORMAT ARRAY WITH DATA ==> ONE ARRAY WITH ALL PRODUCT ID ON CART + ONE ARRAY WITH CONTACT INFOS
-	// making the items id array
-	var cartIds = []
-	cartStorage.forEach(function (cart) {
-		cartIds.push(cart._id)
-	});
-	var firstName = document.getElementById('firstName').value;
-	var lastName = document.getElementById('lastName').value;
-	var address = document.getElementById('address').value;
-	var city = document.getElementById('city').value;
-	var email = document.getElementById('email').value;
-	//contact info array
-	let contactInfo = [firstName, lastName, address, city, email];
-	//Make POST REQUEST AND ON THEN CLEAN ALL LOCALSTORAGE AND PUT ORDERID INSIDE LOCALSTORAGE
-	/* fetch('http://localhost:3000/api/products/order', {
-		method: 'POST',
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify()
-	});
+    //CREATE A FORMAT ARRAY WITH DATA ==> ONE ARRAY WITH ALL PRODUCT ID ON CART + ONE ARRAY WITH CONTACT INFOS
+    // making the items id array
+    var cartIds = []
+    cartStorage.forEach(function (cart) {
+        cartIds.push(cart._id)
+    });
+    var firstName = document.getElementById('firstName').value;
+    var lastName = document.getElementById('lastName').value;
+    var address = document.getElementById('address').value;
+    var city = document.getElementById('city').value;
+    var email = document.getElementById('email').value;
+    //contact info array
+    let contactInfo = {
+            "firstName" : firstName,
+            "lastName" : lastName,
+            "address" : address,
+            "city" : city,
+            "email": email
+    };
 
-	 then(function orderId(value) {
-		localStorage.removeItem("cart");
-		let confirmationId = document.getElementsByClass('confirmation')[0];
-		confirmationId.innerHTML = `<p>Commande validée ! <br>Votre numéro de commande est : <span id="orderId"><!-- `+ +` --></span></p>`;
+    let objectToSend ={
+        "contact" : contactInfo,
+        "products" : cartIds
+    }
+    //Make POST REQUEST AND ON THEN CLEAN ALL LOCALSTORAGE AND PUT ORDERID INSIDE LOCALSTORAGE
+    fetch('http://localhost:3000/api/products/order', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(objectToSend)
+    }).then(function (res) {
+        if (res.ok) {
+            return res.json();
+        }
+    }).then(function orderId(response) {
+        localStorage.clear();
+        localStorage.setItem("orderId", response.orderId)
 
-	}) */
- 
-	//REDIRECT TO CONFIRMATION
-	window.location.href = './confirmation.html'
-	.catch(function (err) {
-		confirmationId.innerHTML =
-			"Impossible d'afficher la confirmation de votre commande (" + err + ")";
-})
+    }).catch(function (err) {
+        console.log(err)
+    })
+
+    //REDIRECT TO CONFIRMATION
+    window.location.href = './confirmation.html'
 }

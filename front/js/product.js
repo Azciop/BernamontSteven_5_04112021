@@ -12,7 +12,6 @@ fetch("http://localhost:3000/api/products/" + id)
 	.then(function (value) {
 		renderHTML(value);
 		addToCart(value);
-		errorMsg(value);
 	})
 
 	// Using a catch function to show the error message if the API cant be reached
@@ -47,28 +46,32 @@ function addToCart(value) {
 	var elm = document.getElementById("colors");
 	// Making an eventlistener on click when clicking add to cart button
 	orderButton.addEventListener("click", function () {
-		var cartStorage = JSON.parse(localStorage.getItem("cart")) || [];
-		value["color"] = elm.value;
-		value["quantity"] = Number(document.getElementById("quantity").value);
-
-		let needToAdd = true;
-		/* making a forEach function that push the selected item to the localStorage. Ff the item with the same color
-		 is already in the localstorage, it only add the new number value to the string instead of making an other item */
-		cartStorage.forEach((element, index) => {
-			if (element._id === value._id && elm.value === element.color) {
-				cartStorage[index].quantity += Number(
-					document.getElementById("quantity").value
-				);
-				needToAdd = false;
+		let error = errorMsg();
+		if (!error) {
+			var cartStorage = JSON.parse(localStorage.getItem("cart")) || [];
+			value["color"] = elm.value;
+			value["quantity"] = Number(document.getElementById("quantity").value);
+	
+			let needToAdd = true;
+			/* making a forEach function that push the selected item to the localStorage. Ff the item with the same color
+			 is already in the localstorage, it only add the new number value to the string instead of making an other item */
+			cartStorage.forEach((element, index) => {
+				if (element._id === value._id && elm.value === element.color) {
+					cartStorage[index].quantity += Number(
+						document.getElementById("quantity").value
+					);
+					needToAdd = false;
+				}
+			});
+			if (needToAdd) {
+				cartStorage.push(value);
 			}
-		});
-		if (needToAdd) {
-			cartStorage.push(value);
+			// converting the object into a string using the stringify function
+			localStorage.setItem("cart", JSON.stringify(cartStorage));
+			// Making an alert message to confirm that the item was added to the cart
+			alert("Votre produit a bien été ajouté à votre panier !");
 		}
-		// converting the object into a string using the stringify function
-		localStorage.setItem("cart", JSON.stringify(cartStorage));
-		// Making an alert message to confirm that the item was added to the cart
-		alert("Votre produit a bien été ajouté à votre panier !");
+		
 	});
 }
 
@@ -77,27 +80,26 @@ function errorMsg() {
 	// Getting the elements from the HTML
 	let itemQuantityValue = document.getElementById("quantity");
 	let colorSelectValue = document.getElementById("colors");
-
-	// Making eventListener on 'change' for the errorMsg function
-	itemQuantityValue.addEventListener("change", errorMsg);
-	colorSelectValue.addEventListener("change", errorMsg);
-
+	let errorMsg = document.getElementById('errorMsg');
+	if (errorMsg == null) {
+		document.getElementsByClassName(
+			"item__content__description"
+		)[0].innerHTML += `<p id="errorMsg" style="color: red;font-size: 25px;"></p>`;
+	}
 	// Creating an element for the error message
-	document.getElementsByClassName(
-		"item__content__description"
-	)[0].innerHTML += `<p id="errorMsg" style="color: red;font-size: 25px;"></p>`;
+	
 
 	let orderButton = document.getElementById("addToCart");
 
 	/* making an if else that take off the order button and show an error message if no color
 	 is choosen or if 0 is selected in the input element */
 	if (itemQuantityValue.value == 0 || colorSelectValue.value == "") {
-		orderButton.style.display = "none";
 		document.getElementById(
 			"errorMsg"
 		).innerHTML = `Veuillez choisir au minimum un article et une couleur !`;
+		return true;
 	} else {
-		orderButton.style.display = "inline-block";
 		document.getElementById("errorMsg").innerHTML = "";
+		return false;
 	}
 }

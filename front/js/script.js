@@ -1,33 +1,42 @@
-// récupération de l'API via un fetch et d'une fonction return 
+//fetching to get the API and using a then function to return JSON
 fetch("http://localhost:3000/api/products")
-  .then(function(res) {
-    if (res.ok) {
-      return res.json();
-    }
-  })
-  /* utilisation de then avec une fonction permettant de récupérer l'id de chaque valeurs et de créer
-  des elements pour chaque objets via un forEach  */
-  .then(function(value) {
-    console.log(value);
-    let html= '';
-    value.forEach(element => {
-        console.log(element);
-        html += `<a href="./product.html?id=` + element._id +`">
+	.then(function (res) {
+		if (res.ok) {
+			return res.json();
+		}
+	})
+
+	/* Using then with a function to get the id of every values and creating elements in the DOM for
+  every object using a ForEach */
+	.then(function (value) {
+		let html = "";
+		value.forEach(element => {
+			html +=
+				`<a href="./product.html?id=` +
+				element._id +
+				`">
         <article>
-          <img src="` + element.imageUrl +`" alt="` + element.altTxt +`">
-          <h3 class="productName">` + element.name + `</h3>
-          <p class="productDescription"> ` + element.description + `</p>
+          <img src="` +
+				element.imageUrl +
+				`" alt="` +
+				element.altTxt +
+				`">
+          <h3 class="productName">` +
+				element.name +
+				`</h3>
+          <p class="productDescription"> ` +
+				element.description +
+				`</p>
         </article>
-      </a>`
-    });
-    let container = document.getElementById("items");
-    container.innerHTML = html;
-    
+      </a>`;
+		});
+		let container = document.getElementById("items");
+		container.innerHTML = html;
+	})
 
-  })
-  // création d'un catch permettant d'afficher un message d'erreur si les api ne peuvent pas être récupérées 
-  .catch(function(err) {
-    let container = document.getElementById("items");
-    container.innerHTML = "Impossible de récupérer les données de l'API ("+err+")";
-  });
-
+	// Using a catch function to show the error message if the API cant be reached
+	.catch(function (err) {
+		let container = document.getElementById("items");
+		container.innerHTML =
+			"Impossible de récupérer les données de l'API (" + err + ")";
+	});

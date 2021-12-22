@@ -1,7 +1,7 @@
-// uses of variables and getItem function to get objects from the localStorage
+// Getting the cart storage obejcts using getItem function
 var cartStorage = JSON.parse(localStorage.getItem("cart"));
 
-// Making a message who says if cart is empty or not
+// Making a message who says if cart is empty or not 
 function cartStatus() {
 	cartStatusMessage = document.querySelectorAll('h1')[0];
 	cartElements = document.getElementsByClassName('cart__order')[0];
@@ -14,7 +14,11 @@ function cartStatus() {
 		cartStatusMessage.innerHTML = "Votre panier";
 	}
 };
+
+// Calling the cartStatus function
 cartStatus();
+
+
 /* uses of variables and forEach function to implement the objects from the localStorage
 to the DOM by implementing them with elements */
 let html = "";
@@ -78,7 +82,7 @@ function deleteFromCart(index) {
 	window.location.reload();
 }
 
-// making a forEach function that delete the selected item from the cart when the button delete is used wi the eventListener click function
+// making a forEach function that delete the selected item from the cart when the button delete is used with the eventListener click function
 let deleteButton = document.querySelectorAll(".deleteItem");
 deleteButton.forEach(button => {
 	button.addEventListener("click", function () {
@@ -90,9 +94,9 @@ deleteButton.forEach(button => {
 function changeQuantityFromCart(index, value) {
 	cartStorage[index]["quantity"] = Number(value);
 	localStorage.setItem("cart", JSON.stringify(cartStorage));
+	// calling the two others functions to make it work
 	updateCartTotalQuantity()
 	updateCartTotalPrice()
-
 }
 let quantityInput = document.querySelectorAll(".itemQuantity");
 quantityInput.forEach(input => {
@@ -101,7 +105,7 @@ quantityInput.forEach(input => {
 	});
 });
 
-// Uses of a function and variables to update the total price of the cart when we add or remove a product for the cart
+// Making a function that show the total price of the cart 
 function updateCartTotalPrice() {
 	let totalAmount = 0;
 	cartStorage.forEach(function (product) {
@@ -112,7 +116,6 @@ function updateCartTotalPrice() {
 updateCartTotalPrice();
 
 // Making a function to show total of item in the cart
-
 function updateCartTotalQuantity() {
 	let totalQty = 0;
 	cartStorage.forEach(function (product) {
@@ -127,7 +130,7 @@ updateCartTotalQuantity();
 function reg(regex, input, msg) {
 	// Making a variable who initializes the RegExp
 	let r = new RegExp(regex);
-	// Testing the RegExo with the imput value
+	// Testing the RegEx with the imput value
 	let test = r.test(input.value);
 	// Getting the next element sibling to creat an error message
 	let inputErrorMsg = input.nextElementSibling;
@@ -170,8 +173,7 @@ form.email.addEventListener("change", function () {
 	);
 });
 
-// Making alert if regex not correct
-
+// Checking if the form is valid, if he is, calls the orderSuccess function
 form.addEventListener('submit', function (event) {
 	event.preventDefault();
 	isFormValid = true;
@@ -190,54 +192,57 @@ form.addEventListener('submit', function (event) {
 	};
 });
 
-
-
-
+// Making a function that creat a object and arry with every products id and contacts info from the form
 function orderSuccess(event) {
-    //CREATE A FORMAT ARRAY WITH DATA ==> ONE ARRAY WITH ALL PRODUCT ID ON CART + ONE ARRAY WITH CONTACT INFOS
-    // making the items id array
-    var cartIds = []
-    cartStorage.forEach(function (cart) {
-        cartIds.push(cart._id)
-    });
-    var firstName = document.getElementById('firstName').value;
-    var lastName = document.getElementById('lastName').value;
-    var address = document.getElementById('address').value;
-    var city = document.getElementById('city').value;
-    var email = document.getElementById('email').value;
-    //contact info array
-    let contactInfo = {
-            "firstName" : firstName,
-            "lastName" : lastName,
-            "address" : address,
-            "city" : city,
-            "email": email
-    };
+	// making the items id array
+	var cartIds = []
+	cartStorage.forEach(function (cart) {
+		cartIds.push(cart._id)
+	});
 
-    let objectToSend ={
-        "contact" : contactInfo,
-        "products" : cartIds
-    }
-    //Make POST REQUEST AND ON THEN CLEAN ALL LOCALSTORAGE AND PUT ORDERID INSIDE LOCALSTORAGE
-    fetch('http://localhost:3000/api/products/order', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(objectToSend)
-    }).then(function (res) {
-        if (res.ok) {
-            return res.json();
-        }
-    }).then(function orderId(response) {
-        localStorage.clear();
-        localStorage.setItem("orderId", response.orderId)
+	//Making the contact info object by getting the valus first using variables
+	var firstName = document.getElementById('firstName').value;
+	var lastName = document.getElementById('lastName').value;
+	var address = document.getElementById('address').value;
+	var city = document.getElementById('city').value;
+	var email = document.getElementById('email').value;
 
-    }).catch(function (err) {
-        console.log(err)
-    })
+	//contact info objects
+	let contactInfo = {
+		"firstName": firstName,
+		"lastName": lastName,
+		"address": address,
+		"city": city,
+		"email": email
+	};
 
-    //REDIRECT TO CONFIRMATION
-    window.location.href = './confirmation.html'
+	//making an object variable to send the values to the local storage
+	let objectToSend = {
+		"contact": contactInfo,
+		"products": cartIds
+	}
+	//Making a post request using fetch
+	fetch('http://localhost:3000/api/products/order', {
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(objectToSend)
+	}).then(function (res) {
+		if (res.ok) {
+			return res.json();
+		}
+		//Making a function that clear the local storage and put the orderID in it
+	}).then(function orderId(response) {
+		localStorage.clear();
+		localStorage.setItem("orderId", response.orderId)
+
+		//Making a catch to display an error if something went wrong
+	}).catch(function (err) {
+		"Impossible de récupérer les données de l'API (" + err + ")";
+	})
+
+	//redirect to confirmation page
+	window.location.href = './confirmation.html'
 }

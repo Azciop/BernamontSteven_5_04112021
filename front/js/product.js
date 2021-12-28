@@ -41,7 +41,7 @@ function renderHTML(value) {
 
 // making a function that add the product to the local storage
 function addToCart(value) {
-	// getting the document elements for the button and the colors value
+	// getting the document element for the button and the colors value
 	let orderButton = document.getElementById("addToCart");
 	var elm = document.getElementById("colors");
 	// Making an eventlistener on click when clicking add to cart button
@@ -51,7 +51,7 @@ function addToCart(value) {
 			var cartStorage = JSON.parse(localStorage.getItem("cart")) || [];
 			value["color"] = elm.value;
 			value["quantity"] = Number(document.getElementById("quantity").value);
-	
+
 			let needToAdd = true;
 			/* making a forEach function that push the selected item to the localStorage. Ff the item with the same color
 			 is already in the localstorage, it only add the new number value to the string instead of making an other item */
@@ -69,13 +69,13 @@ function addToCart(value) {
 			// converting the object into a string using the stringify function
 			localStorage.setItem("cart", JSON.stringify(cartStorage));
 			// Making an alert message to confirm that the item was added to the cart
-			alert("Votre produit a bien été ajouté à votre panier !");
+			window.location.href = './cart.html'
 		}
-		
+
 	});
 }
 
-// Creating error messages and validation messages when choosing product color and quantity
+// Creating a function error messages when trying to add to cart a product that has no chosen color or a selected quantity of 0
 function errorMsg() {
 	// Getting the elements from the HTML
 	let itemQuantityValue = document.getElementById("quantity");
@@ -86,13 +86,9 @@ function errorMsg() {
 			"item__content__description"
 		)[0].innerHTML += `<p id="errorMsg" style="color: red;font-size: 25px;"></p>`;
 	}
-	// Creating an element for the error message
-	
 
-	let orderButton = document.getElementById("addToCart");
-
-	/* making an if else that take off the order button and show an error message if no color
-	 is choosen or if 0 is selected in the input element */
+	/* making an if else that redirect the customer to the cart when he adds a product to the cart or 
+	show an error message if no color is choosen and/or if 0 is selected in the input element  */
 	if (itemQuantityValue.value == 0 || colorSelectValue.value == "") {
 		document.getElementById(
 			"errorMsg"

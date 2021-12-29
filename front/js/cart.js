@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Getting the cart storage object using getItem function
+=======
+// Getting the cart storage obejcts using getItem function
+>>>>>>> 448302bf43d256c9cfc7314157465c0c79b550c0
 var cartStorage = JSON.parse(localStorage.getItem("cart"));
 
 // Making a message who says if cart is empty or not 
@@ -247,4 +251,8 @@ function orderSuccess(event) {
 
 	//redirect to confirmation page
 	window.location.href = './confirmation.html'
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 448302bf43d256c9cfc7314157465c0c79b550c0

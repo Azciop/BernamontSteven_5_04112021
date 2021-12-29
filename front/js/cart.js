@@ -141,9 +141,11 @@ function reg(regex, input, msg) {
 		inputErrorMsg.innerHTML = "";
 	} else {
 		inputErrorMsg.innerHTML = msg;
+		isFormValid = false;
 	}
 }
 
+let isFormValid = true;
 // getting the parent element
 let form = document.querySelector("form");
 

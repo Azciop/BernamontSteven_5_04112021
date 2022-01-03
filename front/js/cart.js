@@ -1,15 +1,11 @@
-<<<<<<< HEAD
-// Getting the cart storage object using getItem function
-=======
 // Getting the cart storage obejcts using getItem function
->>>>>>> 448302bf43d256c9cfc7314157465c0c79b550c0
 var cartStorage = JSON.parse(localStorage.getItem("cart"));
 
-// Making a message who says if cart is empty or not 
+// Making a message who says if cart is empty or not
 function cartStatus() {
-	cartStatusMessage = document.querySelectorAll('h1')[0];
-	cartElements = document.getElementsByClassName('cart__order')[0];
-	cartTotal = document.getElementsByClassName('cart__price')[0];
+	cartStatusMessage = document.querySelectorAll("h1")[0];
+	cartElements = document.getElementsByClassName("cart__order")[0];
+	cartTotal = document.getElementsByClassName("cart__price")[0];
 	if (localStorage.getItem("cart") === null) {
 		cartStatusMessage.innerHTML = "Votre panier est vide !";
 		cartElements.style.display = "none";
@@ -17,40 +13,34 @@ function cartStatus() {
 	} else {
 		cartStatusMessage.innerHTML = "Votre panier";
 	}
-};
+}
 
 // Calling the cartStatus function
 cartStatus();
-
 
 /* uses of variables and forEach function to implement the objects from the localStorage
 to the DOM by implementing them with elements */
 let html = "";
 cartStorage.forEach(function (cart, index) {
 	html +=
-		`<article class="cart__item" 
-		>
-        <div class="cart__item__img">
-          <img src="` +
+		`<article class="cart__item" >
+        <div class="cart__item__img"> <img src="` +
 		cart.imageUrl +
 		`" alt="` +
 		cart.altTxt +
-		`">
-        </div>
+		`"> </div>
         <div class="cart__item__content">
           <div class="cart__item__content__description">
             <h2>` +
 		cart.name +
-		`</h2>
-            <p>` +
+		`</h2> <p>` +
 		cart.color +
 		`</p>
             <p>` +
 		cart.price +
 		`` +
 		"€" +
-		`</p>
-          </div>
+		`</p></div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
               <p>Qté : </p>
@@ -58,18 +48,15 @@ cartStorage.forEach(function (cart, index) {
 		index +
 		`" type="number" class="itemQuantity" data-index="` +
 		index +
-		`" name="itemQuantity" min="1" max="100" value="` +
+		`" 
+			  name="itemQuantity" min="1" max="100" value="` +
 		cart.quantity +
-		`">
-            </div>
+		`"></div>
             <div class="cart__item__content__settings__delete">
               <p data-index="` +
 		index +
-		`" class="deleteItem">Supprimer</p>
-            </div>
-          </div>
-        </div>
-      </article>`;
+		`" class="deleteItem">Supprimer</p></div>
+          </div></div></article>`;
 });
 let container = document.getElementById("cart__items");
 container.innerHTML = html;
@@ -99,8 +86,8 @@ function changeQuantityFromCart(index, value) {
 	cartStorage[index]["quantity"] = Number(value);
 	localStorage.setItem("cart", JSON.stringify(cartStorage));
 	// calling the two others functions to make it work
-	updateCartTotalQuantity()
-	updateCartTotalPrice()
+	updateCartTotalQuantity();
+	updateCartTotalPrice();
 }
 let quantityInput = document.querySelectorAll(".itemQuantity");
 quantityInput.forEach(input => {
@@ -109,7 +96,7 @@ quantityInput.forEach(input => {
 	});
 });
 
-// Making a function that show the total price of the cart 
+// Making a function that show the total price of the cart
 function updateCartTotalPrice() {
 	let totalAmount = 0;
 	cartStorage.forEach(function (product) {
@@ -128,7 +115,7 @@ function updateCartTotalQuantity() {
 	});
 }
 
-updateCartTotalQuantity();
+updateCartTotalQuantity();	
 
 // creating a function to implement RegEx in the form
 function reg(regex, input, msg) {
@@ -180,11 +167,19 @@ form.email.addEventListener("change", function () {
 });
 
 // Checking if the form is valid, if he is, calls the orderSuccess function
-form.addEventListener('submit', function (event) {
+form.addEventListener("submit", function (event) {
 	event.preventDefault();
 	isFormValid = true;
-	reg("^[a-zA-Z]+$", form.firstName, "Le prénom ne peut pas contenir de chiffres !");
-	reg("^[a-zA-Z]+$", form.lastName, "Le nom ne peut pas contenir de chiffres !");
+	reg(
+		"^[a-zA-Z]+$",
+		form.firstName,
+		"Le prénom ne peut pas contenir de chiffres !"
+	);
+	reg(
+		"^[a-zA-Z]+$",
+		form.lastName,
+		"Le nom ne peut pas contenir de chiffres !"
+	);
 	reg('^[^@&"()!$*€£`+=/;?#]+$', form.address, "Adresse non valide !");
 	reg('^[^@&"()!$*€0123456789£`+=/;?#]+$', form.city, "Ville non valide !");
 	reg(
@@ -195,64 +190,63 @@ form.addEventListener('submit', function (event) {
 
 	if (isFormValid) {
 		orderSuccess();
-	};
+	}
 });
 
 // Making a function that creat a object and arry with every products id and contacts info from the form
 function orderSuccess(event) {
 	// making the items id array
-	var cartIds = []
+	var cartIds = [];
 	cartStorage.forEach(function (cart) {
-		cartIds.push(cart._id)
+		cartIds.push(cart._id);
 	});
 
 	//Making the contact info object by getting the valus first using variables
-	var firstName = document.getElementById('firstName').value;
-	var lastName = document.getElementById('lastName').value;
-	var address = document.getElementById('address').value;
-	var city = document.getElementById('city').value;
-	var email = document.getElementById('email').value;
+	var firstName = document.getElementById("firstName").value;
+	var lastName = document.getElementById("lastName").value;
+	var address = document.getElementById("address").value;
+	var city = document.getElementById("city").value;
+	var email = document.getElementById("email").value;
 
 	//contact info objects
 	let contactInfo = {
-		"firstName": firstName,
-		"lastName": lastName,
-		"address": address,
-		"city": city,
-		"email": email
+		firstName: firstName,
+		lastName: lastName,
+		address: address,
+		city: city,
+		email: email,
 	};
 
 	//making an object variable to send the values to the local storage
 	let objectToSend = {
-		"contact": contactInfo,
-		"products": cartIds
-	}
+		contact: contactInfo,
+		products: cartIds,
+	};
 	//Making a post request using fetch
-	fetch('http://localhost:3000/api/products/order', {
-		method: 'POST',
+	fetch("http://localhost:3000/api/products/order", {
+		method: "POST",
 		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
+			Accept: "application/json",
+			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(objectToSend)
-	}).then(function (res) {
-		if (res.ok) {
-			return res.json();
-		}
-		//Making a function that clear the local storage and put the orderID in it
-	}).then(function orderId(response) {
-		localStorage.clear();
-		localStorage.setItem("orderId", response.orderId)
-
-		//Making a catch to display an error if something went wrong
-	}).catch(function (err) {
-		"Impossible de récupérer les données de l'API (" + err + ")";
+		body: JSON.stringify(objectToSend),
 	})
+		.then(function (res) {
+			if (res.ok) {
+				return res.json();
+			}
+			//Making a function that clear the local storage and put the orderID in it
+		})
+		.then(function orderId(response) {
+			localStorage.clear();
+			localStorage.setItem("orderId", response.orderId);
+			document.location.href = `confirmation.html?${localStorage.orderId}`;
+		})
+		//Making a catch to display an error if something went wrong
+		.catch(function (err) {
+			"Impossible de récupérer les données de l'API (" + err + ")";
+		});
 
 	//redirect to confirmation page
-	window.location.href = './confirmation.html'
-<<<<<<< HEAD
+	window.location.href = "./confirmation.html";
 }
-=======
-}
->>>>>>> 448302bf43d256c9cfc7314157465c0c79b550c0

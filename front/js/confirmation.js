@@ -3,9 +3,11 @@ function renderConfirm() {
     if (localStorage.getItem("orderId")) {
         let idHTML = document.getElementById("orderId")
         idHTML.innerHTML = localStorage.getItem("orderId")
+        localStorage.clear();
     } else {
         window.location.href = './index.html'
     }
 }
 
-renderConfirm()
+renderConfirm();
+

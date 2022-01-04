@@ -235,18 +235,16 @@ function orderSuccess(event) {
 			if (res.ok) {
 				return res.json();
 			}
-			//Making a function that clear the local storage and put the orderID in it
+			//Making a function that clear the local storage and put the orderId in the confirmation's Url
 		})
 		.then(function orderId(response) {
 			localStorage.clear();
-			localStorage.setItem("orderId", response.orderId);
-			document.location.href = `confirmation.html?${localStorage.orderId}`;
+			document.location.href = `confirmation.html?orderId=${response.orderId}`;
 		})
 		//Making a catch to display an error if something went wrong
 		.catch(function (err) {
 			"Impossible de récupérer les données de l'API (" + err + ")";
 		});
 
-	//redirect to confirmation page
-	window.location.href = "./confirmation.html";
 }
+Q

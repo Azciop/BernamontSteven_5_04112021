@@ -40,3 +40,4 @@ fetch("http://localhost:3000/api/products")
 		container.innerHTML =
 			"Impossible de récupérer les données de l'API (" + err + ")";
 	});
+	

@@ -24,17 +24,17 @@ fetch("http://localhost:3000/api/products/" + id)
 // Making a function to creat HTML using the DOM
 function renderHTML(value) {
 	let img = document.getElementsByClassName("item__img")[0];
-	img.innerHTML = `<img src="${value.imageUrl}" alt="${value.altTxt}">`;
+	img.innerHTML =`<img src="${value.imageUrl}" alt="${value.altTxt}">`;
 	let name = document.getElementById("title");
 	name.innerHTML = `${value.name}`;
 	let price = document.getElementById("price");
 	price.innerHTML = `${value.price}`;
 	let description = document.getElementById("description");
 	description.innerHTML = `${value.description}`;
-	let colors = `${value.colors}`;
+	let colors = value.colors;
 	var elm = document.getElementById("colors");
 	colors.forEach(color => {
-		elm.innerHTML += `<option value="${value.color}">${value.color}</option>`;
+		elm.innerHTML += `<option value="${color}">${color}</option>`;
 	});
 }
 
@@ -79,22 +79,13 @@ function errorMsg() {
 	// Getting the elements from the HTML
 	let itemQuantityValue = document.getElementById("quantity");
 	let colorSelectValue = document.getElementById("colors");
-	let errorMsg = document.getElementById('errorMsg');
-	if (errorMsg == null) {
-		document.getElementsByClassName(
-			"item__content__description"
-		)[0].innerHTML += `<p id="errorMsg" style="color: red;font-size: 25px;"></p>`;
-	}
 
 	/* making an if else that redirect the customer to the cart when he adds a product to the cart or 
 	show an error message if no color is choosen and/or if 0 is selected in the input element  */
 	if (itemQuantityValue.value == 0 || colorSelectValue.value == "") {
-		document.getElementById(
-			"errorMsg"
-		).innerHTML = `Veuillez choisir au minimum un article et une couleur !`;
+		alert('Veuilliez choisir une quantité et une couleur valide !')
 		return true;
 	} else {
-		document.getElementById("errorMsg").innerHTML = "";
 		return false;
 	}
 }

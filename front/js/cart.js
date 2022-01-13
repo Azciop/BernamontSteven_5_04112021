@@ -14,14 +14,13 @@ function cartStatus() {
 		cartStatusMessage.innerHTML = "Votre panier";
 	}
 }
-
 // Calling the cartStatus function
 cartStatus();
-
 /* uses of variables and forEach function to implement the objects from the localStorage
 to the DOM by implementing them with elements */
-let html = "";
-cartStorage.forEach(function (cart, index) {
+if (cartStorage) {
+	let html = "";
+	cartStorage.forEach(function (cart, index) {
 		html += `<article class="cart__item" >
         <div class="cart__item__img"> <img src="${cart.imageUrl}"alt="${cart.altTxt}"></div>
         <div class="cart__item__content">
@@ -31,18 +30,15 @@ cartStorage.forEach(function (cart, index) {
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
               <p>Qté : </p>
-              <input data-index="
-		${index}" type="number" class="itemQuantity" data-index=" 
-		${index}" 
-			  name="itemQuantity" min="1" max="100" value="
-		${cart.quantity}"></div>
+              <input data-index="${index}" type="number" class="itemQuantity" data-index="${index}" 
+			  name="itemQuantity" min="1" max="100" value="${cart.quantity}"></div>
             <div class="cart__item__content__settings__delete">
-              <p data-index="
-		${index}" class="deleteItem">Supprimer</p></div>
-          </div></div></article>`;	
-});
-let container = document.getElementById("cart__items");
-container.innerHTML = html;
+              <p data-index="${index}" class="deleteItem">Supprimer</p></div>
+          </div></div></article>`;
+	});
+	let container = document.getElementById("cart__items");
+	container.innerHTML = html;
+};
 
 // making a function that delete the selected item from the localStorage using splice function removeItem function and data-index function
 function deleteFromCart(index) {
@@ -80,22 +76,27 @@ quantityInput.forEach(input => {
 });
 
 // Making a function that show the total price of the cart
+
 function updateCartTotalPrice() {
 	let totalAmount = 0;
-	cartStorage.forEach(function (product) {
-		totalAmount += product.quantity * product.price;
-		document.getElementById("totalPrice").innerText = totalAmount;
-	});
+	if (cartStorage) {
+		cartStorage.forEach(function (product) {
+			totalAmount += product.quantity * product.price;
+			document.getElementById("totalPrice").innerText = totalAmount;
+		});
+	}
 }
 updateCartTotalPrice();
 
 // Making a function to show total of item in the cart
 function updateCartTotalQuantity() {
 	let totalQty = 0;
-	cartStorage.forEach(function (product) {
-		totalQty += product.quantity;
-		document.getElementById("totalQuantity").innerText = totalQty;
-	});
+	if (cartStorage) {
+		cartStorage.forEach(function (product) {
+			totalQty += product.quantity;
+			document.getElementById("totalQuantity").innerText = totalQty;
+		});
+	}
 }
 
 updateCartTotalQuantity();

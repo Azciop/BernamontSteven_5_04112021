@@ -24,18 +24,17 @@ fetch("http://localhost:3000/api/products/" + id)
 // Making a function to creat HTML using the DOM
 function renderHTML(value) {
 	let img = document.getElementsByClassName("item__img")[0];
-	img.innerHTML =
-		`<img src="` + value.imageUrl + `" alt="` + value.altTxt + `">`;
+	img.innerHTML = `<img src="${value.imageUrl}" alt="${value.altTxt}">`;
 	let name = document.getElementById("title");
-	name.innerHTML = value.name;
+	name.innerHTML = `${value.name}`;
 	let price = document.getElementById("price");
-	price.innerHTML = value.price;
+	price.innerHTML = `${value.price}`;
 	let description = document.getElementById("description");
-	description.innerHTML = value.description;
-	let colors = value.colors;
+	description.innerHTML = `${value.description}`;
+	let colors = `${value.colors}`;
 	var elm = document.getElementById("colors");
 	colors.forEach(color => {
-		elm.innerHTML += '<option value="' + color + '">' + color + "</option>";
+		elm.innerHTML += `<option value="${value.color}">${value.color}</option>`;
 	});
 }
 

@@ -22,41 +22,24 @@ cartStatus();
 to the DOM by implementing them with elements */
 let html = "";
 cartStorage.forEach(function (cart, index) {
-	html +=
-		`<article class="cart__item" >
-        <div class="cart__item__img"> <img src="` +
-		cart.imageUrl +
-		`" alt="` +
-		cart.altTxt +
-		`"> </div>
+		html += `<article class="cart__item" >
+        <div class="cart__item__img"> <img src="${cart.imageUrl}"alt="${cart.altTxt}"></div>
         <div class="cart__item__content">
-          <div class="cart__item__content__description">
-            <h2>` +
-		cart.name +
-		`</h2> <p>` +
-		cart.color +
-		`</p>
-            <p>` +
-		cart.price +
-		`` +
-		"€" +
-		`</p></div>
+          <div class="cart__item__content__description"><h2> ${cart.name}</h2> 
+		  <p>${cart.color} </p>
+            <p> ${cart.price}€</p></div>
           <div class="cart__item__content__settings">
             <div class="cart__item__content__settings__quantity">
               <p>Qté : </p>
-              <input data-index="` +
-		index +
-		`" type="number" class="itemQuantity" data-index="` +
-		index +
-		`" 
-			  name="itemQuantity" min="1" max="100" value="` +
-		cart.quantity +
-		`"></div>
+              <input data-index="
+		${index}" type="number" class="itemQuantity" data-index=" 
+		${index}" 
+			  name="itemQuantity" min="1" max="100" value="
+		${cart.quantity}"></div>
             <div class="cart__item__content__settings__delete">
-              <p data-index="` +
-		index +
-		`" class="deleteItem">Supprimer</p></div>
-          </div></div></article>`;
+              <p data-index="
+		${index}" class="deleteItem">Supprimer</p></div>
+          </div></div></article>`;	
 });
 let container = document.getElementById("cart__items");
 container.innerHTML = html;
@@ -115,7 +98,7 @@ function updateCartTotalQuantity() {
 	});
 }
 
-updateCartTotalQuantity();	
+updateCartTotalQuantity();
 
 // creating a function to implement RegEx in the form
 function reg(regex, input, msg) {
@@ -245,6 +228,4 @@ function orderSuccess(event) {
 		.catch(function (err) {
 			"Impossible de récupérer les données de l'API (" + err + ")";
 		});
-
 }
-Q
